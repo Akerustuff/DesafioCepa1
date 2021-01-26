@@ -15,11 +15,14 @@ class WinesController < ApplicationController
   # GET /wines/new
   def new
     @wine = Wine.new
+    @strains = Strain.where(available: true)
+
   end
 
   # GET /wines/1/edit
   def edit
-  end
+    @strains = Strain.where(available: true)
+    end
 
   # POST /wines
   # POST /wines.json
