@@ -1,6 +1,6 @@
 class WinesController < ApplicationController
   before_action :set_wine, only: [:show, :edit, :update, :destroy]
-  before_action :strains_availables, only: [:new, :create]
+  before_action :strains_availables, only: [:new, :edit]
 
   # GET /wines
   # GET /wines.json
@@ -71,7 +71,7 @@ class WinesController < ApplicationController
     end
 
     def strains_availables
-      @strains = Strain.where(available: true)
+      @strains = Strain.where(available: true).order("name")
     end
 
     # Only allow a list of trusted parameters through.
