@@ -1,5 +1,6 @@
 class WinesController < ApplicationController
   before_action :set_wine, only: [:show, :edit, :update, :destroy]
+  before_action :strains_availables, only: [:new, :create]
 
   # GET /wines
   # GET /wines.json
@@ -15,13 +16,10 @@ class WinesController < ApplicationController
   # GET /wines/new
   def new
     @wine = Wine.new
-    @strains = Strain.where(available: true)
-
   end
 
   # GET /wines/1/edit
   def edit
-    @strains = Strain.where(available: true)
     end
 
   # POST /wines
@@ -70,6 +68,10 @@ class WinesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_wine
       @wine = Wine.find(params[:id])
+    end
+
+    def strains_availables
+      @strains = Strain.where(available: true)
     end
 
     # Only allow a list of trusted parameters through.
