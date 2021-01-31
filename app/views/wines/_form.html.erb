@@ -9,11 +9,40 @@
       <% end %>
       </ul>
     </div>
+
   <% end %>
 
-  <div class="field">
-    <%= form.label :Nombre %>
-    <%= form.text_field :name, id: :wine_name %>
+<div >
+<h5>Ingrese los datos del vino</h5>
+</div>
+
+<div class="field">
+  <%= form.label :Nombre %>
+  <%= form.text_field :name, id: :wine_name %>
+</div>
+
+<div class="field">
+  <%= form.label :Cepas %>
+  <table>
+    <%= form.collection_check_boxes(:strain_ids, @strains, :id, :name) do |b| %>
+      <tr>
+        <td>
+          <%= b.label class:"label-checkbox pt-2" do %>
+          <%= b.check_box + '&nbsp;'.html_safe + b.text%>
+        </td>
+        <td>
+        <%= text_field("wine[strains_percent]", b.value, value: @wine.getPercentageByStrainId(b.value))%>
+        </td>
+      </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>
+
+  <% if @oenologists %>
+  <hr>
+  <div >
+  <h5>Ingrese los datos de la puntuación del vino</h5>
   </div>
 
   <div class="field">
@@ -22,16 +51,16 @@
   </div>
 
   <div class="field">
-    <%= form.label :strains %>
-    <%= form.collection_check_boxes(:strain_ids, @strains, :id, :name) do |b| %>
-      <%= b.label class:"label-checkbox" do %>
-        <%= b.check_box + b.text%>
-        <%= text_field("wine[strains_percent]", b.value, value: @wine.getPercentageByStrainId(b.value))%>
+    <%= form.label :Oenologos %>
+    <%= form.collection_check_boxes(:oenologists, @oenologists, :id, :name) do |o| %>
+      <%= o.label class:"label-checkbox" do %>
+        <%= (@wine.oenologists.pluck(:id).include? (o.value)) ? o.check_box({checked: true}) + '&nbsp;'.html_safe + o.text : o.check_box + '&nbsp;'.html_safe + o.text%>
       <% end %>
     <% end %>
   </div>
+<% end %>
 
-  <div class="actions">
-    <%= form.submit value="Crear vino" %>
-  </div>
+<div class="actions">
+  <%= form.submit value="Crear vino" %>
+</div>
 <% end %>
